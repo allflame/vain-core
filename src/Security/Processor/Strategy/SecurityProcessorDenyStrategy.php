@@ -14,7 +14,6 @@ namespace Vain\Core\Security\Processor\Strategy;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Vain\Core\Security\Access\Storage\AccessControlStorageInterface;
-use Vain\Core\Security\Config\SecurityConfigInterface;
 use Vain\Core\Security\Token\SecurityTokenInterface;
 
 /**
@@ -38,19 +37,17 @@ class SecurityProcessorDenyStrategy extends AbstractSecurityProcessorStrategy
      * @inheritDoc
      */
     public function decide(
-        SecurityConfigInterface $securityConfig,
+        array $accessControls,
         SecurityTokenInterface $token,
         ServerRequestInterface $request
     ) : bool
     {
-        foreach ($securityConfig->getAccessControls() as $aclName => $accessConfig) {
-            if ($this->checkSingle($aclName, $accessConfig, $token, $request)) {
-                continue;
+        foreach ($accessControls as $accessControl) {
+            if (false === $this->checkSingle($accessControl['name'], $accessControl['config'], $token, $request)) {
+                return false;
             }
-
-            return false;
         }
 
-        return false;
+        return true;
     }
 }

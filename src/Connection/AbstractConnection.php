@@ -19,6 +19,8 @@ namespace Vain\Core\Connection;
  */
 abstract class AbstractConnection implements ConnectionInterface
 {
+    private $connectionInstance;
+
     private $configData;
 
     private $connectionName;
@@ -49,5 +51,22 @@ abstract class AbstractConnection implements ConnectionInterface
     public function getConfigData() : array
     {
         return $this->configData['connections'][$this->connectionName];
+    }
+
+    /**
+     * @return mixed
+     */
+    abstract public function doEstablish();
+
+    /**
+     * @inheritDoc
+     */
+    public function establish()
+    {
+        if (null === $this->connectionInstance) {
+            $this->connectionInstance = $this->doEstablish();
+        }
+
+        return $this->connectionInstance;
     }
 }

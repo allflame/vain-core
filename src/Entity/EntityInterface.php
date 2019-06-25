@@ -15,14 +15,13 @@ namespace Vain\Core\Entity;
 use Vain\Core\ArrayX\ArrayInterface;
 use Vain\Core\Display\DisplayableInterface;
 use Vain\Core\Equal\EquatableInterface;
-use Vain\Core\PrivateX\PrivateInterface;
 
 /**
  * Class EntityInterface
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-interface EntityInterface extends DisplayableInterface, PrivateInterface, EquatableInterface, ArrayInterface
+interface EntityInterface extends DisplayableInterface, EquatableInterface, ArrayInterface
 {
     /**
      * @return int
@@ -33,9 +32,4 @@ interface EntityInterface extends DisplayableInterface, PrivateInterface, Equata
      * @return string
      */
     public function getEntityName() : string;
-
-    /**
-     * @return array
-     */
-    public function toRecord() : array;
 }

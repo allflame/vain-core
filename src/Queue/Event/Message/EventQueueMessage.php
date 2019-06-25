@@ -11,7 +11,6 @@
 
 namespace Vain\Core\Queue\Event\Message;
 
-use Vain\Core\ArrayX\ArrayInterface;
 use Vain\Core\Queue\Message\AbstractQueueMessage;
 
 /**
@@ -21,11 +20,5 @@ use Vain\Core\Queue\Message\AbstractQueueMessage;
  */
 class EventQueueMessage extends AbstractQueueMessage
 {
-    /**
-     * @inheritDoc
-     */
-    public function fromArray(array $data) : ArrayInterface
-    {
-        return $this;
-    }
+
 }

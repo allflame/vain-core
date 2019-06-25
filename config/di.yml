@@ -13,8 +13,10 @@ parameters:
   time.zone.default: 'UTC'
 
 services:
-  api.extension.storage:
-    class: Vain\Core\Api\Extension\Storage\ApiExtensionStorage
+  api.extension.entity.storage:
+    class: Vain\Core\Api\Extension\Storage\ApiExtensionEntityStorage
+  api.extension.document.storage:
+    class: Vain\Core\Api\Extension\Storage\ApiExtensionDocumentStorage
   api.request.factory:
     class: Vain\Core\Api\Request\Factory\ApiRequestFactory
     arguments: ['@api.request.id.provider']
@@ -51,6 +53,10 @@ services:
     class: Vain\Core\Api\Config\Storage\ApiConfigStorage
     arguments: ['@api.config.composite', '@api.config.factory']
   api.config.provider: '@api.config.storage'
+  api.config.parameter.factory.ignore:
+    class: Vain\Core\Api\Config\Parameter\Filter\Factory\ApiConfigParameterIgnoreFactory
+    tags:
+          - {name: filter.factory}
   api.config.parameter.factory.array:
     class: Vain\Core\Api\Config\Parameter\Filter\Factory\ApiConfigParameterArrayFactory
     tags:
@@ -142,7 +148,7 @@ services:
     arguments: ['%app.dir%']
   config.handler.factory:
     class: Vain\Core\Config\Data\Handler\RequireX\RequireHandlerFactory
-    arguments: ['%app.dir%', '%cache.dir%', '%config.dir%']
+    arguments: ['%app.dir%', '%cache.dir%', '%config.dir%', '%app.env%', '%app.mode%']
   config.reader.data.provider:
     class: Vain\Core\Config\Data\Provider\Reader\ReaderConfigDataProvider
     arguments: ['@config.reader.factory']
@@ -163,6 +169,7 @@ services:
     class: Vain\Core\Connection\AbstractConnection
     arguments: ['@config']
   connection.storage:
+    public: true
     class: Vain\Core\Connection\Storage\ConnectionStorage
   database.generator.factory:
     class: Vain\Core\Database\Generator\Factory\DatabaseGeneratorFactory
@@ -179,6 +186,7 @@ services:
     class: Vain\Core\Entity\Operation\Factory\AbstractEntityOperationFactory
     arguments: ['@operation.factory']
   event.handler.abstract:
+    public: true
     abstract: true
     class: Vain\Core\Event\Handler\AbstractEventHandler
     arguments: ['@event.resolver']
@@ -214,6 +222,7 @@ services:
     class: Vain\Core\Http\Event\Handler\HttpEventHandler
     arguments: ['@logger', '%http.log.level.header%']
   http.response.emitter.factory:
+    public: true
     class: Vain\Core\Http\Response\Emitter\Factory\EmitterSapiFactory
   http.header.provider.apache:
     class: Vain\Core\Http\Header\Provider\Apache\ApacheHeaderProvider
@@ -225,10 +234,14 @@ services:
   http.context:
     class: Vain\Core\Http\Context\HttpContext
     arguments: ['@http.request.proxy', '@http.response.proxy']
-  encoder.json:
+  encoder.json.object:
     class: Vain\Core\Encoder\Json\JsonEncoder
     arguments: [0]
-  decoder.json: '@encoder.json'
+  encoder.json.plain:
+    class: Vain\Core\Encoder\Json\JsonEncoder
+    arguments: [0]
+  decoder.json.object: '@encoder.json.object'
+  decoder.json.plain: '@encoder.json.plain'
   encoder.xml:
     class: Vain\Core\Encoder\Xml\XmlEncoder
   decoder.xml: '@encoder.xml'
@@ -307,6 +320,7 @@ services:
   queue.message.factory.storage:
     class: Vain\Core\Queue\Message\Factory\Storage\QueueMessageFactoryStorage
   queue.event:
+    public: true
     class: Vain\Core\Queue\QueueInterface
     factory: ['@queue.factory.event', getEventQueue]
     arguments: ['@config']
@@ -419,6 +433,12 @@ services:
     arguments: ['@security.resource.provider.storage', '@security.voter.strategy.storage']
     tags:
       - {name: security.access.control}
+  security.access.controle.composite:
+    parent: security.access.control.abstract
+    class: Vain\Core\Security\Access\CompositeAccessControl
+    arguments: ['@security.processor.strategy.storage']
+    tags:
+      - {name: security.access.control}
   security.resource.provider.storage:
     class: Vain\Core\Security\Resource\Provider\Storage\ResourceProviderStorage
   security.resource.provider.token:
@@ -429,6 +449,7 @@ services:
   security.token.storage:
     class: Vain\Core\Security\Token\Storage\SecurityTokenStorage
   time.factory:
+    public: true
     class: Vain\Core\Time\Factory\TimeFactory
     arguments: ['@locale.storage', '@time.zone.factory', '%time.zone.default%', '%locale.default%']
   time.zone.factory.full:
@@ -449,7 +470,7 @@ services:
     decorates: http.application
     decoration_priority: 300
     class: Vain\Core\Http\Application\Decorator\Exception\ExceptionApplicationDecorator
-    arguments: ['@http.application.exception.inner', '@http.response.factory']
+    arguments: ['@http.application.exception.inner', '@http.response.factory', '@logger.app']
   http.application.event:
     decorates: http.application
     decoration_priority: 400

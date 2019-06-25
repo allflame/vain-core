@@ -23,9 +23,9 @@ interface ApiExtensionStorageInterface
      * @param string $path
      * @param string $namespace
      *
-     * @return ApiExtensionStorage
+     * @return ApiExtensionStorageInterface
      */
-    public function addPath(string $path, string $namespace) : ApiExtensionStorage;
+    public function addPath(string $path, string $namespace) : ApiExtensionStorageInterface;
 
     /**
      * @return array

@@ -24,7 +24,22 @@ interface RoleHierarchyInterface
     /**
      * @param string $roleName
      *
+     * @return array
+     */
+    public function getRoleNames(string $roleName) : array;
+
+    /**
+     * @param string $roleName
+     *
      * @return SecurityRoleInterface[]
      */
     public function getChildRoles(string $roleName) : array;
+
+    /**
+     * @param string $from
+     * @param string $to
+     *
+     * @return bool
+     */
+    public function isReachable(string $from, string $to) : bool;
 }

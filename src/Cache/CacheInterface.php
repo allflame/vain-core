@@ -26,7 +26,7 @@ interface CacheInterface
      *
      * @return bool
      */
-    public function set(string $key, $value, int $ttl) : bool;
+    public function set(string $key, $value, int $ttl = 0) : bool;
 
     /**
      * @param string $key

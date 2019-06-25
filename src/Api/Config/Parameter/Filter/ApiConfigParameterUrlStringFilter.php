@@ -17,11 +17,11 @@ use Vain\Core\Api\Config\Parameter\Result\ApiConfigParameterSuccessfulResult;
 use Vain\Core\Api\Config\Parameter\Result\ApiParameterWrongTypeResult;
 
 /**
- * Class ApiConfigParameterStringFilter
+ * Class ApiConfigParameterUrlStringFilter
  *
- * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
+ * @author Nazar Ivanenko <nivanenko@gmail.com>
  */
-class ApiConfigParameterStringFilter extends AbstractApiConfigParameterFilter
+class ApiConfigParameterUrlStringFilter extends AbstractApiConfigParameterFilter
 {
     /**
      * @inheritDoc
@@ -29,9 +29,9 @@ class ApiConfigParameterStringFilter extends AbstractApiConfigParameterFilter
     public function doFilter(string $name, $element): ApiConfigParameterResultInterface
     {
         if (false === ($string = filter_var(
-                $element,
+                urldecode((string)$element),
                 FILTER_SANITIZE_STRING,
-                ['flags' => FILTER_FLAG_EMPTY_STRING_NULL | FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_LOW]
+                ['flags' => FILTER_FLAG_EMPTY_STRING_NULL]
             ))
         ) {
             return new ApiParameterWrongTypeResult($name, 'string', $element);

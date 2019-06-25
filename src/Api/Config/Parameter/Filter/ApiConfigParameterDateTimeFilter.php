@@ -8,7 +8,7 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-api
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Vain\Core\Api\Config\Parameter\Filter;
 
@@ -44,7 +44,12 @@ class ApiConfigParameterDateTimeFilter extends AbstractApiConfigParameterFilter
      */
     public function doFilter(string $name, $element): ApiConfigParameterResultInterface
     {
-        if (false === ($dateTime = filter_var($element, FILTER_SANITIZE_STRING))) {
+        if (null === ($dateTime = filter_var(
+                $element,
+                FILTER_SANITIZE_STRING,
+                ['flags' => FILTER_FLAG_EMPTY_STRING_NULL | FILTER_NULL_ON_FAILURE]
+            ))
+        ) {
             return new ApiParameterWrongTypeResult($name, 'time string', $element);
         }
 

@@ -61,6 +61,10 @@ abstract class AbstractApiConfigParameterSource implements ApiConfigParameterSou
             return new ApiConfigParameterSuccessfulResult([$this->destination => $this->defaultValue]);
         }
 
+        if ('*' === $this->source) {
+            return new ApiConfigParameterSuccessfulResult($data);
+        }
+
         return new ApiParameterMissingResult($this->source);
     }
 }

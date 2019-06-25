@@ -13,6 +13,7 @@ namespace Vain\Core\Api\Config\Parameter\Filter\Factory;
 
 use Vain\Core\Api\Config\Parameter\Filter\ApiConfigParameterFilterInterface;
 use Vain\Core\Api\Config\Parameter\Filter\ApiConfigParameterStringFilter;
+use Vain\Core\Api\Config\Parameter\Filter\ApiConfigParameterUrlStringFilter;
 
 /**
  * Class ApiConfigParameterStringFactory
@@ -34,6 +35,10 @@ class ApiConfigParameterStringFactory implements ApiConfigParameterFilterFactory
      */
     public function createFilter(array $config): ApiConfigParameterFilterInterface
     {
-        return new ApiConfigParameterStringFilter($config['optional'] ?? false, $config['default'] ?? null);
+        if ($config['source'] === 'url') {
+            return new ApiConfigParameterUrlStringFilter($config['optional'] ?? false, $config['default'] ?? null);
+        } else {
+            return new ApiConfigParameterStringFilter($config['optional'] ?? false, $config['default'] ?? null);
+        }
     }
 }

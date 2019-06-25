@@ -54,11 +54,12 @@ class RoleAccessControl extends AbstractAccessControl
     ) : bool
     {
         $user = $token->getUser();
-        foreach ($this->roleHierarchy->getChildRoles($accessConfigData['name']) as $role) {
-            if ($user->hasRole($role)) {
+        foreach ($user->getRoles() as $role) {
+            if ($this->roleHierarchy->isReachable($role->getName(), $accessConfigData['name'])) {
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -35,8 +35,8 @@ class SecurityVoterAllowStrategy extends AbstractSecurityVoterStrategy
      */
     public function decide(array $voterConfigs, SecurityTokenInterface $token, ApiResourceInterface $resource) : bool
     {
-        foreach ($voterConfigs as $voterName => $voterConfig) {
-            if (1 === $this->checkSingle($voterName, $voterConfig, $token, $resource)) {
+        foreach ($voterConfigs as $voterConfig) {
+            if (1 === $this->checkSingle($voterConfig['name'], $voterConfig['config'], $token, $resource)) {
                 return true;
             }
         }

@@ -11,7 +11,8 @@
 
 namespace Vain\Core\Queue\Event\Message\Factory;
 
-use Vain\Core\ArrayX\ArrayInterface;
+use Vain\Core\Entity\Event\EntityEventInterface;
+use Vain\Core\Event\EventInterface;
 use Vain\Core\Id\Generator\IdGeneratorInterface;
 use Vain\Core\Queue\Event\Message\EventQueueMessage;
 use Vain\Core\Queue\Message\Factory\AbstractQueueMessageFactory;
@@ -41,7 +42,7 @@ class EventQueueMessageFactory extends AbstractQueueMessageFactory
     /**
      * @inheritDoc
      */
-    public function createMessage(string $source, string $destination, ArrayInterface $content) : QueueMessageInterface
+    public function createMessage(string $source, string $destination, EventInterface $content) : QueueMessageInterface
     {
         return new EventQueueMessage($this->getName(), $this->idGenerator->generate(), $source, $destination, $content);
     }
@@ -51,12 +52,17 @@ class EventQueueMessageFactory extends AbstractQueueMessageFactory
      */
     public function createFromArray(array $serializedMessage) : QueueMessageInterface
     {
+        $content = unserialize($serializedMessage['content']);
+        if ($content instanceof EntityEventInterface) {
+            $content->setForceProceed(true);
+        }
+
         return new EventQueueMessage(
             $this->getName(),
             $serializedMessage['id'],
             $serializedMessage['source'],
             $serializedMessage['destination'],
-            $serializedMessage['content']
+            $content ? $content : null
         );
     }
 }

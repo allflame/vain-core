@@ -26,6 +26,8 @@ abstract class AbstractEntityEvent extends AbstractEvent implements EntityEventI
 
     private $entity;
 
+    private $forceProceed = false;
+
     /**
      * AbstractEntityEvent constructor.
      *
@@ -52,5 +54,23 @@ abstract class AbstractEntityEvent extends AbstractEvent implements EntityEventI
     public function getEntity() : EntityInterface
     {
         return $this->entity;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isForceProceed(): bool
+    {
+        return $this->forceProceed;
+    }
+
+    /**
+     * Force proceed event from queue
+     *
+     * @param bool $forceProceed
+     */
+    public function setForceProceed(bool $forceProceed)
+    {
+        $this->forceProceed = $forceProceed;
     }
 }

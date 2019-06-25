@@ -38,7 +38,7 @@ class EventTracker implements EventTrackerInterface
      */
     public function trackEvent(EventInterface $event) : bool
     {
-        if (array_keys(spl_object_hash($event), $this->events)) {
+        if (array_key_exists(spl_object_hash($event), $this->events)) {
             return false;
         }
 

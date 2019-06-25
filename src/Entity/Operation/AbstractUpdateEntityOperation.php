@@ -83,15 +83,15 @@ abstract class AbstractUpdateEntityOperation extends AbstractOperation
             ->dispatch(
                 new UpdateEntityEvent(
                     $this->eventResolver->createName('entity', 'update'),
-                    $oldEntity,
-                    $newEntity
+                    $newEntity,
+                    $oldEntity
                 )
             )
             ->dispatch(
                 new UpdateEntityEvent(
                     $this->eventResolver->createName($newEntity->getEntityName(), 'update'),
-                    $oldEntity,
-                    $newEntity
+                    $newEntity,
+                    $oldEntity
                 )
             );
 

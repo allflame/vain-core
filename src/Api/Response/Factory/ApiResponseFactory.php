@@ -62,7 +62,7 @@ class ApiResponseFactory implements ApiResponseFactoryInterface
      */
     public function createAccessDeniedResponse(ApiRequestInterface $apiRequest) : ApiResponseInterface
     {
-        return $this->createFailed(403);
+        return $this->createFailed(401);
     }
 
     /**

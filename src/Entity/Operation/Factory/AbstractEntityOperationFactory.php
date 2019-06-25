@@ -41,10 +41,6 @@ abstract class AbstractEntityOperationFactory extends AbstractOperationFactoryDe
      */
     public function updateOperation(EntityInterface $newEntity, EntityInterface $oldEntity) : OperationInterface
     {
-        if ($newEntity->equals($oldEntity)) {
-            return $this->successful();
-        }
-
         return $this->doUpdateOperation($newEntity, $oldEntity);
     }
 }

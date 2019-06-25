@@ -14,6 +14,7 @@ namespace Vain\Core\Security\Token;
 
 use Vain\Core\Api\Resource\ApiResourceInterface;
 use Vain\Core\PrivateX\PrivateInterface;
+use Vain\Core\Security\OAuth\Client\OAuthClientInterface;
 use Vain\Core\Security\User\SecurityUserInterface;
 use Vain\Core\String\StringInterface;
 
@@ -36,6 +37,11 @@ interface SecurityTokenInterface extends
      * @return SecurityUserInterface
      */
     public function getUser(): SecurityUserInterface;
+
+    /**
+     * @return OAuthClientInterface
+     */
+    public function getClient();
 
     /**
      * @param string $resource

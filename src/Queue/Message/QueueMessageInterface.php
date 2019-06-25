@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Vain\Core\Queue\Message;
 
 use Vain\Core\ArrayX\ArrayInterface;
+use Vain\Core\Event\EventInterface;
 
 /**
  * Interface QueueMessageInterface
@@ -35,4 +36,6 @@ interface QueueMessageInterface extends ArrayInterface
      * @return string
      */
     public function getDestination() : string;
+
+    public function getContent() : EventInterface;
 }

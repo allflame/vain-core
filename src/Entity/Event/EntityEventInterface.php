@@ -25,4 +25,8 @@ interface EntityEventInterface
      * @return EntityInterface
      */
     public function getEntity() : EntityInterface;
+
+    public function isForceProceed(): bool;
+
+    public function setForceProceed(bool $forceProceed);
 }

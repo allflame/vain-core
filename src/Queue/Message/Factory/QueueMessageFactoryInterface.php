@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Vain\Core\Queue\Message\Factory;
 
-use Vain\Core\ArrayX\ArrayInterface;
+use Vain\Core\Event\EventInterface;
 use Vain\Core\Queue\Message\QueueMessageInterface;
 
 /**
@@ -30,11 +30,11 @@ interface QueueMessageFactoryInterface
     /**
      * @param string         $source
      * @param string         $destination
-     * @param ArrayInterface $content
+     * @param EventInterface $content
      *
      * @return QueueMessageInterface
      */
-    public function createMessage(string $source, string $destination, ArrayInterface $content) : QueueMessageInterface;
+    public function createMessage(string $source, string $destination, EventInterface $content) : QueueMessageInterface;
 
     /**
      * @param array $serializedMessage

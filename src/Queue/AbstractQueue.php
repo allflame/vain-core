@@ -30,6 +30,9 @@ abstract class AbstractQueue implements QueueInterface
 
     private $configData;
 
+    /**
+     * @var AbstractQueue $queue
+     */
     private $queue;
 
     private $messages;
@@ -80,6 +83,10 @@ abstract class AbstractQueue implements QueueInterface
      */
     public function getQueue()
     {
+        if (!$this->queue) {
+            $this->queue = $this->connection->establish();
+        }
+
         return $this->queue;
     }
 
@@ -108,12 +115,12 @@ abstract class AbstractQueue implements QueueInterface
     /**
      * @return QueueMessageInterface
      */
-    abstract public function doDequeue() : QueueMessageInterface;
+    abstract public function doDequeue() : ?QueueMessageInterface;
 
     /**
      * @inheritDoc
      */
-    public function dequeue() : QueueMessageInterface
+    public function dequeue() : ?QueueMessageInterface
     {
         if (null === ($queueMessage = $this->doDequeue())) {
             return null;

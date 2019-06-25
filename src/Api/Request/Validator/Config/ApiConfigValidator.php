@@ -45,19 +45,13 @@ class ApiConfigValidator extends AbstractApiValidator
         ApiConfigInterface $apiConfig
     ): ApiValidatorResultInterface {
         $processedValues = [];
-        $errors = [];
         foreach ($apiConfig->getParameterConfigs() as $apiParameterConfig) {
             $result = $apiParameterConfig->handle($serverRequest);
             if (false === $result->isSuccessful()) {
-                $errors[] = $result->toDisplay();
-                continue;
+                return new ApiValidatorFailResult($result->toDisplay());
             }
 
             $processedValues[] = $result->getValue();
-        }
-
-        if ([] !== $errors) {
-            return new ApiValidatorFailResult($errors);
         }
 
         $extractedValues = count($processedValues) > 0

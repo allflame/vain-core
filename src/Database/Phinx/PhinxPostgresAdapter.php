@@ -45,7 +45,7 @@ class PhinxPostgresAdapter extends PostgresAdapter
      */
     public function isValidColumnType(Column $column)
     {
-        return in_array($column->getType(), $this->getColumnTypes());
+        return parent::isValidColumnType($column);
     }
 
     /**

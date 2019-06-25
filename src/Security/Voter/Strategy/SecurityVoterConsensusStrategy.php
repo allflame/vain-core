@@ -36,8 +36,8 @@ class SecurityVoterConsensusStrategy extends AbstractSecurityVoterStrategy
     public function decide(array $voterConfigs, SecurityTokenInterface $token, ApiResourceInterface $resource) : bool
     {
         $positive = $negative = 0;
-        foreach ($voterConfigs as $voterName => $voterConfig) {
-            switch ($this->checkSingle($voterName, $voterConfig, $token, $resource)) {
+        foreach ($voterConfigs as $voterConfig) {
+            switch ($this->checkSingle($voterConfig['name'], $voterConfig['config'], $token, $resource)) {
                 case 0:
                     $negative++;
                     break;

@@ -36,6 +36,6 @@ abstract class AbstractCoreException extends \Exception implements CoreException
      */
     public function jsonSerialize() : array
     {
-        return ['code' => $this->getCode(), 'message' => $this->getMessage()];
+        return ['status' => false, 'code' => $this->getCode(), 'message' => $this->getMessage()];
     }
 }

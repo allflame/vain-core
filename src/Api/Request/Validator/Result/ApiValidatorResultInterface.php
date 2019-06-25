@@ -26,9 +26,4 @@ interface ApiValidatorResultInterface extends ResultInterface
      * @return ApiRequestInterface
      */
     public function getRequest() : ApiRequestInterface;
-
-    /**
-     * @return array
-     */
-    public function getErrors() : array;
 }

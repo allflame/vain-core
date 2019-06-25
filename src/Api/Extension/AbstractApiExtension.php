@@ -8,7 +8,7 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-api
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Vain\Core\Api\Extension;
 
@@ -27,7 +27,7 @@ abstract class AbstractApiExtension extends Extension
     /**
      * @inheritDoc
      */
-    public function load(array $configs, ContainerBuilder $container) : AbstractApiExtension
+    public function load(array $configs, ContainerBuilder $container): AbstractApiExtension
     {
         $reflectionClass = new \ReflectionClass($this);
         $absolutePath = dirname($reflectionClass->getFileName(), 2);
@@ -53,25 +53,32 @@ abstract class AbstractApiExtension extends Extension
                 );
         }
 
-        if (false === $container->has('api.extension.storage')) {
-            return $this;
-        }
-
         $entityDir = $absolutePath . DIRECTORY_SEPARATOR . 'Entity';
-        if (false === is_dir($entityDir)) {
-            return $this;
+        if ($container->has('api.extension.entity.storage') && is_dir($entityDir)) {
+            $container
+                ->findDefinition('api.extension.entity.storage')
+                ->addMethodCall(
+                    'addPath',
+                    [
+                        $entityDir,
+                        str_replace('\Extension', '\Entity', $reflectionClass->getNamespaceName()),
+                    ]
+                );
         }
 
-        $container
-            ->findDefinition('api.extension.storage')
-            ->addMethodCall(
-                'addPath',
-                [
-                    $entityDir,
-                    str_replace('\Extension', '\Entity', $reflectionClass->getNamespaceName()),
-                ]
-            );
+        $documentDir = $absolutePath . DIRECTORY_SEPARATOR . 'Document';
+        if ($container->has('api.extension.document.storage') && is_dir($documentDir)) {
+            $container
+                ->findDefinition('api.extension.document.storage')
+                ->addMethodCall(
+                    'addPath',
+                    [
+                        $documentDir,
+                        str_replace('\Extension', '\Document', $reflectionClass->getNamespaceName()),
+                    ]
+                );
 
+        }
         return $this;
     }
 }

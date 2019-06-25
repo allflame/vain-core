@@ -13,6 +13,7 @@ declare(strict_types = 1);
 namespace Vain\Core\Api\Request;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Vain\Core\Api\Resource\ApiResourceInterface;
 use Vain\Core\Display\DisplayableInterface;
 
 /**
@@ -20,7 +21,7 @@ use Vain\Core\Display\DisplayableInterface;
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-interface ApiRequestInterface extends DisplayableInterface, ServerRequestInterface
+interface ApiRequestInterface extends DisplayableInterface, ServerRequestInterface, ApiResourceInterface
 {
     /**
      * @return string

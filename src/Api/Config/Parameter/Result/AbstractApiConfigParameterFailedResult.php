@@ -50,4 +50,12 @@ abstract class AbstractApiConfigParameterFailedResult extends AbstractFailedResu
     {
         return null;
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function toDisplay(): array
+    {
+        return ['status' => false, 'name' => $this->name, 'code' => 422];
+    }
 }

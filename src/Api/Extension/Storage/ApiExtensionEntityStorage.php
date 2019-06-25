@@ -13,18 +13,18 @@ declare(strict_types = 1);
 namespace Vain\Core\Api\Extension\Storage;
 
 /**
- * Class ApiExtensionStorage
+ * Class ApiExtensionEntityStorage
  *
  * @author Taras P. Girnyk <taras.p.gyrnik@gmail.com>
  */
-class ApiExtensionStorage implements ApiExtensionStorageInterface
+class ApiExtensionEntityStorage implements ApiExtensionStorageInterface
 {
     private $paths = [];
 
     /**
      * @inheritDoc
      */
-    public function addPath(string $path, string $namespace) : ApiExtensionStorage
+    public function addPath(string $path, string $namespace) : ApiExtensionStorageInterface
     {
         $this->paths[$path] = $namespace;
 

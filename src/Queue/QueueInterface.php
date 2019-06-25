@@ -41,7 +41,7 @@ interface QueueInterface
     /**
      * @return QueueMessageInterface
      */
-    public function dequeue() : QueueMessageInterface;
+    public function dequeue() : ?QueueMessageInterface;
 
     /**
      * @param QueueMessageInterface $queueMessage

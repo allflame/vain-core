@@ -37,6 +37,11 @@ interface SecurityUserInterface extends
     public function hasRole(SecurityRoleInterface $role) : bool;
 
     /**
+     * @return SecurityRoleInterface[]
+     */
+    public function getRoles() : array;
+
+    /**
      * @return SecurityUserInterface[]
      */
     public function getSubordinates() : array;

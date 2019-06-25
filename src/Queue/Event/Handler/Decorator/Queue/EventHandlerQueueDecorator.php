@@ -11,6 +11,7 @@
 
 namespace Vain\Core\Queue\Event\Handler\Decorator\Queue;
 
+use Vain\Core\Entity\Event\EntityEventInterface;
 use Vain\Core\Event\Config\EventConfigInterface;
 use Vain\Core\Event\EventInterface;
 use Vain\Core\Event\Handler\Decorator\AbstractEventHandlerDecorator;
@@ -42,7 +43,9 @@ class EventHandlerQueueDecorator extends AbstractEventHandlerDecorator
      */
     public function handle(EventInterface $event, EventConfigInterface $eventConfig) : EventHandlerInterface
     {
-        if (false === $eventConfig->isForeground()) {
+        $forceProceed = $event instanceof EntityEventInterface && $event->isForceProceed();
+
+        if (!$forceProceed && false === $eventConfig->isForeground()) {
             $this->queueHandler->handle($event, $eventConfig);
 
             return $this;

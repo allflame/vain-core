@@ -32,6 +32,6 @@ class UnknownRouteException extends ConfigProviderException
     public function __construct(ApiConfigProviderInterface $apiConfigProvider, string $endpointName)
     {
         $this->endpointName = $endpointName;
-        parent::__construct($apiConfigProvider, 'Not found', 404);
+        parent::__construct($apiConfigProvider, sprintf('Route %s not found', $endpointName), 404);
     }
 }

@@ -23,16 +23,16 @@ use Vain\Core\Result\AbstractFailedResult;
  */
 class ApiValidatorFailResult extends AbstractFailedResult implements ApiValidatorResultInterface
 {
-    private $errors;
+    private $data;
 
     /**
      * ApiRequestValidatorFailResult constructor.
      *
-     * @param array $errors
+     * @param array $data
      */
-    public function __construct(array $errors = [])
+    public function __construct(array $data)
     {
-        $this->errors = $errors;
+        $this->data = $data;
         parent::__construct();
     }
 
@@ -49,15 +49,7 @@ class ApiValidatorFailResult extends AbstractFailedResult implements ApiValidato
      */
     public function toDisplay(): array
     {
-        return array_merge(parent::toDisplay(), ['errors' => $this->errors]);
-    }
-
-    /**
-     * @return array
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
+        return $this->data;
     }
 
     /**
@@ -65,6 +57,6 @@ class ApiValidatorFailResult extends AbstractFailedResult implements ApiValidato
      */
     public function __toString(): string
     {
-        return implode(', ', $this->errors);
+        return implode(', ', $this->data);
     }
 }

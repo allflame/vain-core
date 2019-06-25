@@ -28,6 +28,10 @@ class RequireHandlerFactory extends AbstractHandlerFactory
 
     private $configDir;
 
+    private $env;
+
+    private $mode;
+
     /**
      * RequireHandlerFactory constructor.
      *
@@ -35,11 +39,13 @@ class RequireHandlerFactory extends AbstractHandlerFactory
      * @param string $cacheDir
      * @param string $configDir
      */
-    public function __construct(string $applicationPath, string $cacheDir, string $configDir)
+    public function __construct(string $applicationPath, string $cacheDir, string $configDir, string $env, string $mode)
     {
         $this->applicationPath = $applicationPath;
         $this->cacheDir = $cacheDir;
         $this->configDir = $configDir;
+        $this->env = $env;
+        $this->mode = $mode;
     }
 
     /**
@@ -50,6 +56,8 @@ class RequireHandlerFactory extends AbstractHandlerFactory
         return new RequireHandler(
             sprintf('%s%s%s%s', $this->applicationPath, DIRECTORY_SEPARATOR, $this->cacheDir, DIRECTORY_SEPARATOR),
             $this->configDir,
+            $this->env,
+            $this->mode,
             $fileName
         );
     }

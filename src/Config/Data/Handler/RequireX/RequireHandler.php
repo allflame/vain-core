@@ -8,7 +8,7 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-config
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Vain\Core\Config\Data\Handler\RequireX;
 
@@ -25,34 +25,42 @@ class RequireHandler implements HandlerInterface
 
     private $configDir;
 
+    private $env;
+
+    private $mode;
+
     private $fileName;
+
 
     /**
      * RequireHandler constructor.
      *
      * @param string $cachePath
      * @param string $configDir
+     * @param string $env
+     * @param string $mode
      * @param string $fileName
      */
-    public function __construct(string $cachePath, string $configDir, string $fileName)
+    public function __construct(string $cachePath, string $configDir, string $env, string $mode, string $fileName)
     {
         $this->cachePath = $cachePath;
         $this->configDir = $configDir;
         $this->fileName = $fileName;
+        $this->env = $env;
+        $this->mode = $mode;
     }
 
     /**
      * @return string
      */
-    public function getFullName() : string
+    public function getFullName(): string
     {
         return sprintf(
-            '%s%s%s%s%s%s',
+            '%s%s%s%s%s',
             $this->cachePath,
-            DIRECTORY_SEPARATOR,
             $this->configDir,
             DIRECTORY_SEPARATOR,
-            md5($this->fileName),
+            md5($this->fileName . '*' . $this->mode . '*' . $this->env),
             '.php'
         );
     }
@@ -73,7 +81,7 @@ class RequireHandler implements HandlerInterface
     /**
      * @inheritdoc
      */
-    public function write(array $data) : bool
+    public function write(array $data): bool
     {
         $fullName = $this->getFullName();
         $contents = sprintf('<?php return %s;', var_export($data, true));

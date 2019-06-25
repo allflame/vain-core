@@ -33,7 +33,7 @@ class VoterAccessControlAssertDecorator extends AbstractAccessControlDecorator
         ServerRequestInterface $request
     ) : bool
     {
-        foreach (['voters', 'strategy'] as $requiredField) {
+        foreach (['voters', 'strategy', 'resource'] as $requiredField) {
             if (false === array_key_exists($requiredField, $accessConfigData)) {
                 throw new NoRequiredFieldAccessControlException($this, $this->getName(), $requiredField);
             }

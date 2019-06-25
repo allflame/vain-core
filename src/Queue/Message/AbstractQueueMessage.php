@@ -12,7 +12,7 @@ declare(strict_types = 1);
 
 namespace Vain\Core\Queue\Message;
 
-use Vain\Core\ArrayX\ArrayInterface;
+use Vain\Core\Event\EventInterface;
 
 /**
  * Class AbstractQueueMessage
@@ -38,9 +38,9 @@ abstract class AbstractQueueMessage implements QueueMessageInterface
      * @param string         $id
      * @param string         $source
      * @param string         $destination
-     * @param ArrayInterface $content
+     * @param EventInterface $content
      */
-    public function __construct(string $type, string $id, string $source, string $destination, ArrayInterface $content)
+    public function __construct(string $type, string $id, string $source, string $destination, EventInterface $content)
     {
         $this->id = $id;
         $this->type = $type;
@@ -59,7 +59,7 @@ abstract class AbstractQueueMessage implements QueueMessageInterface
             'type'        => $this->type,
             'source'      => $this->source,
             'destination' => $this->destination,
-            'content'     => $this->content->toArray(),
+            'content'     => serialize($this->content),
         ];
     }
 
@@ -85,5 +85,10 @@ abstract class AbstractQueueMessage implements QueueMessageInterface
     public function getDestination() : string
     {
         return $this->destination;
+    }
+
+    public function getContent() : EventInterface
+    {
+        return $this->content;
     }
 }

@@ -8,7 +8,7 @@
  * @license   https://opensource.org/licenses/MIT MIT License
  * @link      https://github.com/allflame/vain-security
  */
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Vain\Core\Security\Processor;
 
@@ -25,7 +25,6 @@ use Vain\Core\Security\Token\Storage\SecurityTokenStorageInterface;
  */
 class SecurityProcessor implements SecurityProcessorInterface
 {
-
     private $tokenStorage;
 
     private $securityContext;
@@ -52,7 +51,7 @@ class SecurityProcessor implements SecurityProcessorInterface
     /**
      * @inheritDoc
      */
-    public function isAllowed(SecurityConfigInterface $securityConfig, ServerRequestInterface $request) : bool
+    public function isAllowed(SecurityConfigInterface $securityConfig, ServerRequestInterface $request): bool
     {
         if (null === ($token = $this->tokenStorage->getProvider($securityConfig->getAuth())->getToken($request))) {
             return false;
@@ -73,6 +72,6 @@ class SecurityProcessor implements SecurityProcessorInterface
 
         return $this->strategyStorage
             ->getStrategy($securityConfig->getStrategy())
-            ->decide($securityConfig, $token, $request);
+            ->decide($securityConfig->getAccessControls(), $token, $request);
     }
 }
